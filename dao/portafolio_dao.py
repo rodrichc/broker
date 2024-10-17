@@ -8,7 +8,7 @@ class PortafolioDAO:
         cursor = self.db.connection.cursor()
         sql = """INSERT INTO Portafolio (id_inversor, saldo, total_invertido, rendimiento)
                  VALUES (%s, %s, %s, %s)"""
-        values = (portafolio.id_inversor, portafolio.saldo, portafolio.total_invertido, portafolio.rendimiento)
+        values = (portafolio.get_id_inversor(), portafolio.get_saldo(), portafolio.get_total_invertido(), portafolio.get_rendimiento())
         cursor.execute(sql, values)
         self.db.connection.commit()
         cursor.close()
@@ -28,7 +28,7 @@ class PortafolioDAO:
         sql = """UPDATE Portafolio 
                  SET saldo = %s, total_invertido = %s, rendimiento = %s 
                  WHERE id_portafolio = %s"""
-        values = (portafolio.saldo, portafolio.total_invertido, portafolio.rendimiento, portafolio.id_portafolio)
+        values = (portafolio.get_saldo(), portafolio.get_total_invertido(), portafolio.get_rendimiento(), portafolio.get_id_portafolio())
         cursor.execute(sql, values)
         self.db.connection.commit()
         cursor.close()

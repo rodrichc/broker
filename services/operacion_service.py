@@ -14,24 +14,29 @@ class OperacionService:
         portafolio = self.portafolio_dao.obtener_portafolio(id_inversor)
         accion = self.accion_dao.obtener_accion(id_accion)
         
-        costo_total = accion.precio_compra * cantidad
-        comision = costo_total * 0.01  #comision del 1.5%
+        costo_total = accion.get_precio_compra() * cantidad
+        comision = costo_total * 0.015  #comision del 1.5%
         costo_total_con_comision = costo_total + comision
 
-        if portafolio.saldo < costo_total_con_comision:
+        if portafolio.get_saldo() < costo_total_con_comision:
             raise ValueError("Saldo insuficiente para realizar la compra")
 
+    #se puede mejorar el codigo dividiendo lo de aca para abajo
         # Registro de la operación
         self.operacion_dao.registrar_operacion(
-            portafolio.id_portafolio, 1, id_accion, date.today(),
-            accion.precio_compra, cantidad, costo_total, comision
+            portafolio.get_id_portafolio(), 1, id_accion, date.today(),
+            accion.get_precio_compra(), cantidad, costo_total, comision
         )
         # Se actualiza la cantidad de accion en el portafolio
-        self.actualizar_cantidad_acciones(portafolio.id_portafolio, id_accion, cantidad)
+        self.actualizar_cantidad_acciones(portafolio.get_id_portafolio(), id_accion, cantidad)
 
         # Se actualiza el portafolio
-        portafolio.saldo -= costo_total_con_comision
-        portafolio.total_invertido += costo_total
+        nuevo_saldo = portafolio.get_saldo() - costo_total_con_comision
+        portafolio.set_saldo(nuevo_saldo)
+
+        nuevo_total_invertido = portafolio.get_total_invertido() + costo_total
+        portafolio.set_total_invertido(nuevo_total_invertido)
+
         self.portafolio_dao.actualizar_portafolio(portafolio)
 
 
@@ -40,31 +45,34 @@ class OperacionService:
         accion = self.accion_dao.obtener_accion(id_accion)
         
         # Se Verifica si el inversor tiene suficientes acciones para vender
-        acciones_en_portafolio = self.portafolio_dao.obtener_cantidad_acciones(portafolio.id_portafolio, id_accion)
+        acciones_en_portafolio = self.portafolio_dao.obtener_cantidad_acciones(portafolio.get_id_portafolio(), id_accion)
         if acciones_en_portafolio < cantidad:
             raise ValueError("No tienes suficientes acciones para realizar esta venta")
 
-        valor_venta = accion.precio_venta * cantidad
+        valor_venta = accion.get_precio_venta() * cantidad
         comision = valor_venta * 0.015  # comisión del 1.5%
         valor_venta_neto = valor_venta - comision
 
         # Registrar la operación
         self.operacion_dao.registrar_operacion(
-            portafolio.id_portafolio, 2, id_accion, date.today(),
-            accion.precio_venta, cantidad, valor_venta, comision
+            portafolio.get_id_portafolio(), 2, id_accion, date.today(),
+            accion.get_precio_venta(), cantidad, valor_venta, comision
         )
 
+        # Actualizar la cantidad de acciones en el portafolio
+        self.actualizar_cantidad_acciones(portafolio.get_id_portafolio(), id_accion, -cantidad)
+
         # Actualizar el portafolio
-        portafolio.saldo += valor_venta_neto
+        nuevo_saldo = portafolio.get_saldo() + valor_venta_neto
+        portafolio.set_saldo(nuevo_saldo)
         
-        # Calcular el nuevo total invertido
-        costo_promedio = self.calcular_costo_promedio(portafolio.id_portafolio, id_accion)
-        portafolio.total_invertido -= costo_promedio * cantidad
+            # Calcular el nuevo total invertido
+        costo_promedio = self.calcular_costo_promedio(portafolio.get_id_portafolio(), id_accion)
+        nuevo_total_invertido = portafolio.get_total_invertido() - (costo_promedio * cantidad)
+        portafolio.set_total_invertido(nuevo_total_invertido)
 
         self.portafolio_dao.actualizar_portafolio(portafolio)
 
-        # Actualizar la cantidad de acciones en el portafolio
-        self.actualizar_cantidad_acciones(portafolio.id_portafolio, id_accion, -cantidad)
 
     def actualizar_cantidad_acciones(self, id_portafolio, id_accion, cantidad):
         portafolio_accion = self.portafolio_dao.obtener_portafolio_accion(id_portafolio, id_accion)

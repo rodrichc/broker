@@ -8,7 +8,7 @@ class InversorDAO:
         cursor = self.db.connection.cursor()
         sql = """INSERT INTO Inversor (nombre, apellido, cuil, correo, contraseña)
                  VALUES (%s, %s, %s, %s, %s)"""
-        values = (inversor.nombre, inversor.apellido, inversor.cuil, inversor.correo, inversor.contraseña)
+        values = (inversor.get_nombre(), inversor.get_apellido(), inversor.get_cuil(), inversor.get_correo(), inversor.get_contraseña())
         cursor.execute(sql, values)
         id_inversor = cursor.lastrowid
         self.db.connection.commit()

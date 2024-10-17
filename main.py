@@ -40,13 +40,13 @@ def main():
             inversor = auth_service.iniciar_sesion(correo, contraseña)
             
             if inversor:
-                print(f"\n\n¡Bienvenido, {inversor.nombre}!\n\n")
+                print(f"\n\n¡Bienvenido, {inversor.get_nombre()}!\n\n")
                 while True:
                     mostrar_menu_principal()
                     opcion_menu = input("\nSeleccione una opción: ")
                     
                     if opcion_menu == "1":
-                        datos_cuenta = portafolio_service.obtener_datos_cuenta(inversor.id_inversor)
+                        datos_cuenta = portafolio_service.obtener_datos_cuenta(inversor.get_id_inversor())
                         print(f"\n\nSaldo: {datos_cuenta['saldo']}")
                         print(f"Total invertido: {datos_cuenta['total_invertido']}")
                         print(f"Valor actual: {datos_cuenta['valor_total_actual']}")
@@ -54,36 +54,45 @@ def main():
 
                     elif opcion_menu == "2":
                         #FALTA EL PRECIO
-                        activos = portafolio_service.listar_activos(inversor.id_inversor)
-                        for activo in activos:
-                            print("\n Empresa: %s / Simbolo: %s / Cantidad: %s / Precio actual: %s / Valor total: %s / Rendimiento: %s" % 
-                                  (activo['nombre_empresa'], activo['simbolo'], activo['cantidad'], activo['precio_actual'], activo['valor_total'], 
-                                   activo['rendimiento']))
+                        activos = portafolio_service.listar_activos(inversor.get_id_inversor())
+                        if activos:
+                            for activo in activos:
+                                print("\n Empresa: %s / Simbolo: %s / Cantidad: %s / Precio actual: %s / Valor total: %s / Rendimiento: %s" % 
+                                    (activo['nombre_empresa'], activo['simbolo'], activo['cantidad'], activo['precio_actual'], activo['valor_total'], 
+                                    activo['rendimiento']))
+                        else:
+                            print("\n¡Todavía no haz realizado ninguna compra de acciones!")
                     
                     elif opcion_menu == "3":
                         accion_service.armar_listado_acciones()
                         id_accion = int(input("\nID de la acción a comprar: "))
                         cantidad = int(input("Cantidad de acciones: "))
                         try:
-                            operacion_service.realizar_compra(inversor.id_inversor, id_accion, cantidad)
+                            operacion_service.realizar_compra(inversor.get_id_inversor(), id_accion, cantidad)
                             print("\n¡Compra realizada con éxito!\n")
                         except ValueError as e:
                             print(f"\nError: {str(e)}")
                     
                     elif opcion_menu == "4":
-                        activos = portafolio_service.listar_activos(inversor.id_inversor)
-                        for activo in activos:
-                            print("\n ID Accion: %s / Empresa: %s / Simbolo: %s / Cantidad: %s / Precio actual: %s" % 
-                                 (activo['id_accion'], activo['nombre_empresa'], activo['simbolo'], activo['cantidad'], activo['precio_actual']))
-                            
-                        id_accion = int(input("\nID de la acción a vender: "))
-                        cantidad = int(input("Cantidad de acciones: "))
-                        try:
-                            operacion_service.realizar_venta(inversor.id_inversor, id_accion, cantidad)
-                            print("\n¡Venta realizada con éxito!")
-                        except ValueError as e:
-                            print(f"\nError: {str(e)}")
-                        pass
+                        activos = portafolio_service.listar_activos(inversor.get_id_inversor())
+                        if activos: 
+                            for activo in activos:
+                                #Lista las acciones
+                                print("\n ID Accion: %s / Empresa: %s / Simbolo: %s / Cantidad: %s / Precio actual: %s" % 
+                                    (activo['id_accion'], activo['nombre_empresa'], activo['simbolo'], activo['cantidad'], activo['precio_actual']))
+                            #Inputs para elegir que comprar y cuanto
+                            id_accion = int(input("\nID de la acción a vender: "))
+                            cantidad = int(input("Cantidad de acciones: "))
+                            try:
+                                operacion_service.realizar_venta(inversor.get_id_inversor(), id_accion, cantidad)
+                                print("\n¡Venta realizada con éxito!")
+                            except ValueError as e:
+                                print(f"\nError: {str(e)}")
+                                # pass
+                        else: 
+                            print("\n¡Todavía no haz realizado ninguna compra de acciones!")
+
+                        
                     
                     elif opcion_menu == "5":
                         break
