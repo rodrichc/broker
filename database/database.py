@@ -1,10 +1,10 @@
 import mysql.connector
 
-class DatabaseConnection:
+class ConexionBaseDeDatos:
     def __init__(self):
-        self.connection = None
+        self.conexion = None
 
-    def connect(self):
+    def conectar(self):
         self.connection = mysql.connector.connect(
             host='localhost',
             user='root',
@@ -13,6 +13,6 @@ class DatabaseConnection:
             port='3306'
         )
 
-    def disconnect(self):
+    def desconectar(self):
         if self.connection:
             self.connection.close()

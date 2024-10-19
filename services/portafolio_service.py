@@ -2,9 +2,9 @@ from dao.portafolio_dao import PortafolioDAO
 from dao.accion_dao import AccionDAO
 
 class PortafolioService:
-    def __init__(self, db_connection):
-        self.portafolio_dao = PortafolioDAO(db_connection)
-        self.accion_dao = AccionDAO(db_connection)
+    def __init__(self, db_conexion):
+        self.portafolio_dao = PortafolioDAO(db_conexion)
+        self.accion_dao = AccionDAO(db_conexion)
 
     def listar_activos(self, id_inversor):
         portafolio = self.portafolio_dao.obtener_portafolio(id_inversor)

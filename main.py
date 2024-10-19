@@ -1,4 +1,4 @@
-from database.database import DatabaseConnection
+from database.database import ConexionBaseDeDatos
 from services.auth_service import AuthService
 from services.portafolio_service import PortafolioService
 from services.operacion_service import OperacionService
@@ -13,8 +13,8 @@ def mostrar_menu_principal():
     print("5. Cerrar sesión")
 
 def main():
-    db = DatabaseConnection()
-    db.connect()
+    db = ConexionBaseDeDatos()
+    db.conectar()
 
     auth_service = AuthService(db)
     portafolio_service = PortafolioService(db)
@@ -102,7 +102,7 @@ def main():
         elif opcion == "3":
             break
 
-    db.disconnect()
+    db.desconectar()
 
 if __name__ == "__main__":
     main()

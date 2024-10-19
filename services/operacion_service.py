@@ -4,10 +4,10 @@ from dao.accion_dao import AccionDAO
 from datetime import date
 
 class OperacionService:
-    def __init__(self, db_connection):
-        self.operacion_dao = OperacionDAO(db_connection)
-        self.portafolio_dao = PortafolioDAO(db_connection)
-        self.accion_dao = AccionDAO(db_connection)
+    def __init__(self, db_conexion):
+        self.operacion_dao = OperacionDAO(db_conexion)
+        self.portafolio_dao = PortafolioDAO(db_conexion)
+        self.accion_dao = AccionDAO(db_conexion)
 
 
     def realizar_compra(self, id_inversor, id_accion, cantidad):
@@ -89,7 +89,7 @@ class OperacionService:
     def calcular_costo_promedio(self, id_portafolio, id_accion):
         operaciones = self.operacion_dao.obtener_operaciones_accion(id_portafolio, id_accion)
 
-        total_costo = sum(op['precio'] * op['cantidad'] for op in operaciones if op['id_tipo'] == 'compra')
-        total_cantidad = sum(op['cantidad'] for op in operaciones if op['id_tipo'] == 'compra')
+        total_costo = sum(op['precio'] * op['cantidad'] for op in operaciones if op['id_tipo'] == 1)
+        total_cantidad = sum(op['cantidad'] for op in operaciones if op['id_tipo'] == 1)
 
         return total_costo / total_cantidad if total_cantidad > 0 else 0

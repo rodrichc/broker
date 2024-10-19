@@ -4,9 +4,9 @@ from dao.portafolio_dao import PortafolioDAO
 from models.portafolio import Portafolio
 
 class AuthService:
-    def __init__(self, db_connection):
-        self.inversor_dao = InversorDAO(db_connection)
-        self.portafolio_dao = PortafolioDAO(db_connection)
+    def __init__(self, db_conexion):
+        self.inversor_dao = InversorDAO(db_conexion)
+        self.portafolio_dao = PortafolioDAO(db_conexion)
 
     def registrar_inversor(self, nombre, apellido, cuil, correo, contraseña):
         nuevo_inversor = Inversor(None, nombre, apellido, cuil, correo, contraseña)

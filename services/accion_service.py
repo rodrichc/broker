@@ -1,8 +1,8 @@
 from dao.accion_dao import AccionDAO
 
 class AccionService:
-    def __init__(self, db_connection):
-        self.accion_dao = AccionDAO(db_connection)
+    def __init__(self, db_conexion):
+        self.accion_dao = AccionDAO(db_conexion)
 
     def armar_listado_acciones(self):
         lista_acciones = self.accion_dao.listar_acciones()
