@@ -36,8 +36,8 @@ def main():
 
         elif opcion == "2":
             correo = input("\nCorreo: ")
-            contraseña = input("Contraseña: ")
-            inversor = auth_service.iniciar_sesion(correo, contraseña)
+            contrasenia = input("Contraseña: ")
+            inversor = auth_service.iniciar_sesion(correo, contrasenia)
             
             if inversor:
                 print(f"\n\n¡Bienvenido, {inversor.get_nombre()}!\n\n")

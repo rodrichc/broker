@@ -6,10 +6,10 @@ class ConexionBaseDeDatos:
 
     def conectar(self):
         self.connection = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='12345',
-            database='argbroker',
+            host='bi201yksz8ubhfjv7dyb-mysql.services.clever-cloud.com',
+            user='uihujxs4xmhkdvi3',
+            password='tp5pvzvCEPOye6QVmYAQ',
+            database='bi201yksz8ubhfjv7dyb',
             port='3306'
         )
 

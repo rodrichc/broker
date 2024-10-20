@@ -1,11 +1,11 @@
 class Inversor:
-    def __init__(self, id_inversor, nombre, apellido, cuil, correo, contraseña):
+    def __init__(self, id_inversor, nombre, apellido, cuil, correo, contrasenia):
         self.__id_inversor = id_inversor
         self.__nombre = nombre
         self.__apellido = apellido
         self.__cuil = cuil
         self.__correo = correo
-        self.__contraseña = contraseña
+        self.__contrasenia = contrasenia
 
     def get_id_inversor(self):
         return self.__id_inversor
@@ -22,5 +22,5 @@ class Inversor:
     def get_correo(self):
         return self.__correo
     
-    def get_contraseña(self):
-        return self.__contraseña
+    def get_contrasenia(self):
+        return self.__contrasenia

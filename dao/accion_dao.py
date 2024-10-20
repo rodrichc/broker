@@ -27,14 +27,3 @@ class AccionDAO:
         except Exception as e:
             print(f"Error al listar acciones: {e}")
             return None
-
-    # def actualizar_precios(self, id_accion, precio_venta, precio_compra):
-    #     try:
-    #         with self.db.connection.cursor() as cursor:
-    #             sql = """UPDATE Accion 
-    #                     SET precio_venta = %s, precio_compra = %s 
-    #                     WHERE id_accion = %s"""
-    #             cursor.execute(sql, (precio_venta, precio_compra, id_accion))
-    #             self.db.connection.commit()
-    #     except Exception as e:
-    #         print(f"Error: {e}")

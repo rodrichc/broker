@@ -49,21 +49,21 @@ def validar_correo(correo):
         return False, "El correo no cumple con el formato.\n"
 
 
-def validar_contraseña(contraseña):
-    if len(contraseña) < 8:
+def validar_contrasenia(contrasenia):
+    if len(contrasenia) < 8:
         return False, "La contraseña debe tener al menos 8 caracteres.\n"
     
-    if not any(caracter.isupper() for caracter in contraseña):
+    if not any(caracter.isupper() for caracter in contrasenia):
         return False, "La contraseña debe contener al menos una letra mayúscula.\n"
     
-    if not any(caracter.islower() for caracter in contraseña):
+    if not any(caracter.islower() for caracter in contrasenia):
         return False, "La contraseña debe contener al menos una letra minúscula.\n"
     
-    if not any(caracter.isdigit() for caracter in contraseña):
+    if not any(caracter.isdigit() for caracter in contrasenia):
         return False, "La contraseña debe contener al menos un número.\n"
     
     caracteres_especiales = "!@#$%^&*()-_+=<>?/{}[]|"
-    if not any(caracter in caracteres_especiales for caracter in contraseña):
+    if not any(caracter in caracteres_especiales for caracter in contrasenia):
         return False, "La contraseña debe contener al menos un carácter especial.\n"
     
     return True, " "
@@ -94,10 +94,10 @@ def validar_datos():
         validacion_correo, mensaje = validar_correo(correo)
         print(mensaje)
         
-    validacion_contraseña = False
-    while not validacion_contraseña:
-        contraseña = input("Introduzca su contraseña: ")
-        validacion_contraseña, mensaje = validar_contraseña(contraseña)
+    validacion_contrasenia = False
+    while not validacion_contrasenia:
+        contrasenia = input("Introduzca su contraseña: ")
+        validacion_contrasenia, mensaje = validar_contrasenia(contrasenia)
         print(mensaje)
 
-    return (nombre, apellido, cuil, correo, contraseña)
+    return (nombre, apellido, cuil, correo, contrasenia)

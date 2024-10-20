@@ -7,9 +7,9 @@ class InversorDAO:
     def crear_inversor(self, inversor):
         try:
             with self.db.connection.cursor() as cursor:
-                sql = """INSERT INTO Inversor (nombre, apellido, cuil, correo, contraseña)
+                sql = """INSERT INTO Inversor (nombre, apellido, cuil, correo, contrasenia)
                         VALUES (%s, %s, %s, %s, %s)"""
-                values = (inversor.get_nombre(), inversor.get_apellido(), inversor.get_cuil(), inversor.get_correo(), inversor.get_contraseña())
+                values = (inversor.get_nombre(), inversor.get_apellido(), inversor.get_cuil(), inversor.get_correo(), inversor.get_contrasenia())
                 cursor.execute(sql, values)
                 id_inversor = cursor.lastrowid #Devuelve el último valor autoincremental generado (id_inversor)
                 self.db.connection.commit()
@@ -19,11 +19,11 @@ class InversorDAO:
             self.db.connection.rollback()
             return None
 
-    def obtener_inversor_por_correo_y_contraseña(self, correo, contraseña):
+    def obtener_inversor_por_correo_y_contrasenia(self, correo, contrasenia):
         try:
             with self.db.connection.cursor() as cursor:
-                sql = "SELECT * FROM Inversor WHERE correo = %s and contraseña = %s"
-                cursor.execute(sql, (correo, contraseña))
+                sql = "SELECT * FROM Inversor WHERE correo = %s and contrasenia = %s"
+                cursor.execute(sql, (correo, contrasenia))
                 inversor = cursor.fetchone()
             if inversor:
                 return Inversor(*inversor)
